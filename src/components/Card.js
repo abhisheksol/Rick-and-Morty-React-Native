@@ -106,7 +106,7 @@ const HomePage = () => {
 
         <View style={styles.titleContainer}>
           <Text style={styles.title}>Rick and Morty Characters</Text>
-          {/* <Text style={styles.info}>Explore different categories of characters from the Rick and Morty universe. Tap on a category to view characters who are either alive, dead, or all characters.</Text> */}
+          <Text style={styles.info}>Explore different categories of characters from the Rick and Morty universe. Tap on a category to view characters who are either alive, dead, or all characters.</Text>
         </View>
       </View>
     </View>
@@ -174,14 +174,24 @@ const styles = StyleSheet.create({
     fontSize: 22,
     marginLeft: 26,
     color: 'black',
-    // textAlign: 'center',
+    textAlign: 'center',
     paddingHorizontal: 10,
+    color:"#666666"
   },
   searchInput: {
-    marginTop: 66,
-    backgroundColor:'white',
-    marginLeft:20,
-    marginRight:40,
-    borderRadius:16
-  }
+    marginTop: 50,
+    marginHorizontal: 20,
+    padding: 10,
+    height: 50,
+    borderRadius: 10,
+    backgroundColor: '#faf3e0' ,// Soft beige
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 5,
+    elevation: 3,
+    fontSize: 16,
+    color: '#333',
+  },
+  
 });

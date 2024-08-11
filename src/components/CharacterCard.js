@@ -42,7 +42,7 @@ const styles = StyleSheet.create({
     paddingVertical: 20,
   },
   card: {
-    backgroundColor: '#ffffff',
+    backgroundColor: '#2d3a47',
     borderRadius: 15,
     padding: 15,
     marginVertical: 10,
@@ -62,12 +62,12 @@ const styles = StyleSheet.create({
   name: {
     fontSize: 22,
     fontWeight: 'bold',
-    color: '#333333',
+    color: '#f9f9f9',
     marginBottom: 5,
   },
   status: {
     fontSize: 18,
-    color: '#666666',
+    color: '#f9f9f9',
   },
   noCharactersText: {
     fontSize: 20,
