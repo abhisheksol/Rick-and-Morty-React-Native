@@ -9,6 +9,8 @@ import { createDrawerNavigator } from '@react-navigation/drawer';
 import HomePage from './src/screens/HomePage';
 import CharacterCard from './src/components/CharacterCard';
 import All_Char from './src/components/All_Char';
+import CharacterListingPage from './src/screens/CharacterListingPage';
+import CharacterDetailPage from './src/screens/CharacterDetailPage';
 
 // Create navigators
 const Stack = createNativeStackNavigator();
@@ -26,7 +28,9 @@ const StackNavigator = () => (
 // Drawer Navigator
 const DrawerNavigator = () => (
   <Drawer.Navigator>
-    <Drawer.Screen name="Feed" component={StackNavigator} />
+    <Drawer.Screen name="Home" component={StackNavigator} />
+    <Drawer.Screen name="Character List" component={CharacterListingPage} />
+    <Drawer.Screen name="Character Detail" component={CharacterDetailPage} />
     {/* Add other drawer screens if needed */}
   </Drawer.Navigator>
 );

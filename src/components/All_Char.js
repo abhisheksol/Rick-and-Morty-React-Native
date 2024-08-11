@@ -1,8 +1,10 @@
-import { StyleSheet, Text, View, Image, FlatList } from 'react-native';
+import { StyleSheet, Text, View, Image, FlatList, TouchableOpacity } from 'react-native';
 import React, { useEffect, useState } from 'react';
+import { useNavigation } from '@react-navigation/native';
 
 const CharacterCard = () => {
   const [characters, setCharacters] = useState([]);
+  const navigation = useNavigation(); // Get the navigation prop
 
   useEffect(() => {
     // Fetch data from the API
@@ -12,14 +14,19 @@ const CharacterCard = () => {
       .catch((error) => console.error('Error fetching data:', error));
   }, []);
 
+  const handlePress = (characterId) => {
+    // Navigate to the CharacterDetailPage with characterId
+    navigation.navigate('Character Detail', { characterId });
+  };
+
   const renderItem = ({ item }) => (
-    <View style={styles.card}>
+    <TouchableOpacity onPress={() => handlePress(item.id)} style={styles.card}>
       <Image source={{ uri: item.image }} style={styles.image} />
       <Text style={styles.name}>{item.name}</Text>
       <Text>Status: {item.status}</Text>
       <Text>Species: {item.species}</Text>
       <Text>Location: {item.location.name}</Text>
-    </View>
+    </TouchableOpacity>
   );
 
   return (

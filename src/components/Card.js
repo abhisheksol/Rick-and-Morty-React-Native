@@ -1,20 +1,29 @@
-// HomePage.js
-import { StyleSheet, Text, View, TouchableOpacity, ScrollView, ActivityIndicator } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, ScrollView, ActivityIndicator, Image } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import React, { useState, useEffect } from 'react';
 
-const CardComponent = ({ title, onPress }) => {
+// Sample images for card
+const images = {
+  all: 'https://rickandmortyapi.com/api/character/avatar/1.jpeg',
+  alive: 'https://rickandmortyapi.com/api/character/avatar/9.jpeg',
+  dead: 'https://rickandmortyapi.com/api/character/avatar/18.jpeg',
+};
+
+// Card component with image and description
+const CardComponent = ({ title, description, image, onPress }) => {
   return (
     <TouchableOpacity onPress={onPress} style={styles.cardContainer}>
       <View style={styles.card}>
+        <Image source={{ uri: image }} style={styles.cardImage} />
         <Text style={styles.cardTitle}>{title}</Text>
+        <Text style={styles.cardDescription}>{description}</Text>
       </View>
     </TouchableOpacity>
   );
 };
 
 const HomePage = () => {
-  const navigation = useNavigation(); // Get the navigation object
+  const navigation = useNavigation();
   const [characters, setCharacters] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -38,16 +47,11 @@ const HomePage = () => {
   const handlePress = (title) => {
     if (title === 'Alive Characters') {
       navigation.navigate('CharacterCard', { characters: characters.filter(c => c.status === 'Alive') });
+    } else if (title === 'All Characters') {
+      navigation.navigate('All_Char');
+    } else if (title === 'Dead Characters') {
+      navigation.navigate('CharacterCard', { characters: characters.filter(c => c.status === 'Dead') });
     }
-    if (title === 'All Characters') {
-        navigation.navigate('All_Char');
-      }
-      else if (title === 'Dead Characters') {
-        navigation.navigate('CharacterCard', { characters: characters.filter(c => c.status === 'Dead') });
-      }
-
-    
-    // Handle other cases if needed
   };
 
   if (loading) {
@@ -55,11 +59,39 @@ const HomePage = () => {
   }
 
   return (
-    <ScrollView contentContainerStyle={styles.container}>
-      <CardComponent title="All Characters" onPress={() => handlePress('All Characters')} />
-      <CardComponent title="Alive Characters" onPress={() => handlePress('Alive Characters')} />
-      <CardComponent title="Dead Characters" onPress={() => handlePress('Dead Characters')} />
-    </ScrollView>
+    <View>
+      
+      <View style={{height:"100%"}}>
+      <View style={styles.titleContainer}>
+        <Text style={styles.title}>Rick and Morty Characters</Text>
+        <Text style={styles.info}>Explore different categories of characters from the Rick and Morty universe. Tap on a category to view characters who are either alive, dead, or all characters.</Text>
+      </View>
+        <ScrollView
+          contentContainerStyle={styles.container}
+          horizontal
+          showsHorizontalScrollIndicator={false}
+        >
+          <CardComponent
+            title="All Characters"
+            description="Browse through the complete list of characters from Rick and Morty."
+            image={images.all}
+            onPress={() => handlePress('All Characters')}
+          />
+          <CardComponent
+            title="Alive Characters"
+            description="See all characters who are currently alive."
+            image={images.alive}
+            onPress={() => handlePress('Alive Characters')}
+          />
+          <CardComponent
+            title="Dead Characters"
+            description="Find out which characters are no longer with us."
+            image={images.dead}
+            onPress={() => handlePress('Dead Characters')}
+          />
+        </ScrollView>
+      </View>
+    </View>
   );
 };
 
@@ -67,26 +99,62 @@ export default HomePage;
 
 const styles = StyleSheet.create({
   container: {
+    flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#f5f5f5',
-    paddingHorizontal: 20,
+    backgroundColor: 'purple',
     paddingVertical: 20,
+    paddingHorizontal: 10,
   },
   cardContainer: {
-    width: '100%',
-    marginVertical: 10,
+    width: 250, // Adjust the width as needed
+    marginHorizontal: 10,
+  }, 
+  titleContainer: {
+    // position:'absolute',
+    alignItems: 'center',
+    
+    backgroundColor: 'purple'
   },
   card: {
     borderRadius: 10,
-    height: 300,
     padding: 15,
-    elevation: 3,
+    elevation: 5,
     backgroundColor: '#fff',
     alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 5,
+  },
+  cardImage: {
+    width: '100%',
+    height: 150,
+    borderRadius: 10,
+    marginBottom: 10,
   },
   cardTitle: {
-    fontSize: 18,
+    fontSize: 20,
     fontWeight: 'bold',
     color: '#333',
+    marginBottom: 5,
+  },
+  cardDescription: {
+    fontSize: 16,
+    color: '#666',
+    textAlign: 'center',
+  },
+  title: {
+    marginTop:30,
+    fontSize: 29,
+    fontWeight: 'bold',
+    color: '#333',
+    marginBottom: 10,
+  },  
+  info: {
+    fontSize: 22,
+    marginLeft:26,
+    color: 'black',
+    // textAlign: 'center',
+    paddingHorizontal: 10,
   },
 });

@@ -5,7 +5,7 @@ import Card from '../components/Card'
 const HomePage = () => {
   return (
     <View >
-      <Text style={{ marginBottom:50}}>HomePages</Text>
+      
       <Card/>
     </View>
   )
