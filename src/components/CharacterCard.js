@@ -1,24 +1,32 @@
-// CharacterCard.js
-import { StyleSheet, Text, View, Image, ScrollView } from 'react-native';
+import { StyleSheet, Text, View, Image, ScrollView, TouchableOpacity } from 'react-native';
 import React from 'react';
-import { useRoute } from '@react-navigation/native';
+import { useRoute, useNavigation } from '@react-navigation/native';
 
 const CharacterCard = () => {
   const route = useRoute();
+  const navigation = useNavigation();
   const { characters } = route.params || {};
+
+  const handlePress = (characterId) => {
+    navigation.navigate('Character Detail', { characterId });
+  };
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
-      {characters ? (
+      {characters && characters.length > 0 ? (
         characters.map(character => (
-          <View key={character.id} style={styles.card}>
+          <TouchableOpacity
+            key={character.id}
+            style={styles.card}
+            onPress={() => handlePress(character.id)}
+          >
             <Image source={{ uri: character.image }} style={styles.image} />
             <Text style={styles.name}>{character.name}</Text>
             <Text style={styles.status}>{character.status}</Text>
-          </View>
+          </TouchableOpacity>
         ))
       ) : (
-        <Text>No characters to display</Text>
+        <Text style={styles.noCharactersText}>No characters to display</Text>
       )}
     </ScrollView>
   );
@@ -29,30 +37,43 @@ export default CharacterCard;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f5f5f5',
-    paddingHorizontal: 20,
+    backgroundColor: 'rgb(35,49,65)',
+    paddingHorizontal: 15,
     paddingVertical: 20,
   },
   card: {
-    backgroundColor: '#fff',
-    borderRadius: 10,
+    backgroundColor: '#ffffff',
+    borderRadius: 15,
     padding: 15,
     marginVertical: 10,
     alignItems: 'center',
-    elevation: 3,
+    elevation: 5,
+    shadowColor: '#000000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.2,
+    shadowRadius: 10,
   },
   image: {
-    width: 100,
-    height: 100,
-    borderRadius: 50,
+    width: 130,
+    height: 130,
+    borderRadius: 65,
+    marginBottom: 10,
   },
   name: {
-    fontSize: 18,
+    fontSize: 22,
     fontWeight: 'bold',
-    marginTop: 10,
+    color: '#333333',
+    marginBottom: 5,
   },
   status: {
-    fontSize: 16,
-    color: '#666',
+    fontSize: 18,
+    color: '#666666',
+  },
+  noCharactersText: {
+    fontSize: 20,
+    color: '#cccccc',
+    textAlign: 'center',
+    marginTop: 20,
   },
 });
+

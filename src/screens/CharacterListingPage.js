@@ -1,5 +1,6 @@
-import { StyleSheet, Text, View, FlatList, ActivityIndicator, TextInput } from 'react-native';
+import { StyleSheet, Text, View, FlatList, ActivityIndicator, TextInput, TouchableOpacity } from 'react-native';
 import React, { useState, useEffect } from 'react';
+import { useNavigation } from '@react-navigation/native'; // Import useNavigation
 
 // Replace with your actual API URL
 const API_URL = 'https://rickandmortyapi.com/api/character';
@@ -10,6 +11,7 @@ const CharacterListingPage = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [searchQuery, setSearchQuery] = useState('');
+  const navigation = useNavigation(); // Get the navigation prop
 
   useEffect(() => {
     const fetchData = async () => {
@@ -39,10 +41,15 @@ const CharacterListingPage = () => {
     setFilteredCharacters(filtered);
   }, [searchQuery, characters]);
 
+  const handlePress = (characterId) => {
+    // Navigate to CharacterDetailPage with characterId
+    navigation.navigate('Character Detail', { characterId });
+  };
+
   if (loading) {
     return (
       <View style={styles.container}>
-        <ActivityIndicator size="large" color="#0000ff" />
+        <ActivityIndicator size="large" color="#ffffff" />
       </View>
     );
   }
@@ -60,6 +67,7 @@ const CharacterListingPage = () => {
       <TextInput
         style={styles.searchInput}
         placeholder="Search characters..."
+        placeholderTextColor="#888"
         value={searchQuery}
         onChangeText={(text) => setSearchQuery(text)}
       />
@@ -67,11 +75,11 @@ const CharacterListingPage = () => {
         data={filteredCharacters}
         keyExtractor={(item) => item.id.toString()}
         renderItem={({ item }) => (
-          <View style={styles.card}>
+          <TouchableOpacity onPress={() => handlePress(item.id)} style={styles.card}>
             <Text style={styles.characterName}>{item.name}</Text>
-            <Text>Species: {item.species}</Text>
-            <Text>Status: {item.status}</Text>
-          </View>
+            <Text style={styles.characterDetails}>Species: {item.species}</Text>
+            <Text style={styles.characterDetails}>Status: {item.status}</Text>
+          </TouchableOpacity>
         )}
       />
     </View>
@@ -81,39 +89,47 @@ const CharacterListingPage = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#f5f5f5',
-    padding: 10,
+    backgroundColor: '#1f2a38',
+    padding: 20,
   },
   searchInput: {
     width: '100%',
-    padding: 10,
+    padding: 12,
     marginBottom: 20,
-    borderRadius: 5,
-    borderColor: '#ccc',
+    borderRadius: 8,
+    borderColor: '#444',
     borderWidth: 1,
+    backgroundColor: '#333',
+    color: '#fff',
   },
   card: {
-    backgroundColor: '#fff',
-    borderRadius: 10,
-    padding: 15,
+    backgroundColor: '#2d3a47',
+    borderRadius: 12,
+    padding: 20,
     marginVertical: 10,
     width: '100%',
     shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 5,
-    elevation: 3,
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.2,
+    shadowRadius: 6,
+    elevation: 5,
   },
   characterName: {
-    fontSize: 18,
+    fontSize: 20,
     fontWeight: 'bold',
+    color: '#f9f9f9',
+  },
+  characterDetails: {
+    fontSize: 16,
+    color: '#c0c0c0',
+    marginTop: 4,
   },
   errorText: {
     color: 'red',
-    fontSize: 16,
+    fontSize: 18,
+    textAlign: 'center',
   },
 });
 
 export default CharacterListingPage;
+

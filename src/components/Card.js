@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, TouchableOpacity, ScrollView, ActivityIndicator, Image } from 'react-native';
+import { StyleSheet, Text, View, TextInput, TouchableOpacity, ScrollView, ActivityIndicator, Image } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import React, { useState, useEffect } from 'react';
 
@@ -58,14 +58,27 @@ const HomePage = () => {
     return <ActivityIndicator size="large" color="#0000ff" />;
   }
 
+
   return (
-    <View>
-      
-      <View style={{height:"100%"}}>
-      <View style={styles.titleContainer}>
-        <Text style={styles.title}>Rick and Morty Characters</Text>
-        <Text style={styles.info}>Explore different categories of characters from the Rick and Morty universe. Tap on a category to view characters who are either alive, dead, or all characters.</Text>
+    <View style={{ backgroundColor: "rgb(35,49,65)", height: "100%" }}>
+      <View onPress={() => handlePress('All Characters')}>
+
+        <TextInput
+          style={styles.searchInput}
+          placeholder="Search characters..."
+          value={''}
+          onChangeText={""}
+          onPress={() => handlePress('All Characters')}
+        />
       </View>
+
+      <View >
+        <View style={styles.titleContainer}>
+          <Text style={styles.title}></Text>
+          {/* <Text style={styles.info}>Explore different categories of characters from the Rick and Morty universe. Tap on a category to view characters who are either alive, dead, or all characters.</Text> */}
+        </View>
+
+
         <ScrollView
           contentContainerStyle={styles.container}
           horizontal
@@ -90,6 +103,11 @@ const HomePage = () => {
             onPress={() => handlePress('Dead Characters')}
           />
         </ScrollView>
+
+        <View style={styles.titleContainer}>
+          <Text style={styles.title}>Rick and Morty Characters</Text>
+          {/* <Text style={styles.info}>Explore different categories of characters from the Rick and Morty universe. Tap on a category to view characters who are either alive, dead, or all characters.</Text> */}
+        </View>
       </View>
     </View>
   );
@@ -101,25 +119,26 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: 'purple',
+    backgroundColor: 'rgb(35,49,65)',
     paddingVertical: 20,
     paddingHorizontal: 10,
   },
   cardContainer: {
     width: 250, // Adjust the width as needed
     marginHorizontal: 10,
-  }, 
+  },
   titleContainer: {
     // position:'absolute',
     alignItems: 'center',
-    
-    backgroundColor: 'purple'
+
+    backgroundColor: 'rgb(35,49,65)'
   },
   card: {
+    height:300,
     borderRadius: 10,
     padding: 15,
     elevation: 5,
-    backgroundColor: '#fff',
+    backgroundColor: '#2d3a47',
     alignItems: 'center',
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
@@ -135,26 +154,34 @@ const styles = StyleSheet.create({
   cardTitle: {
     fontSize: 20,
     fontWeight: 'bold',
-    color: '#333',
+    color: '#f9f9f9',
     marginBottom: 5,
   },
   cardDescription: {
     fontSize: 16,
-    color: '#666',
+    color: '#666666',
     textAlign: 'center',
   },
   title: {
-    marginTop:30,
+    marginTop: 30,
     fontSize: 29,
     fontWeight: 'bold',
     color: '#333',
     marginBottom: 10,
-  },  
+    color:"white"
+  },
   info: {
     fontSize: 22,
-    marginLeft:26,
+    marginLeft: 26,
     color: 'black',
     // textAlign: 'center',
     paddingHorizontal: 10,
   },
+  searchInput: {
+    marginTop: 66,
+    backgroundColor:'white',
+    marginLeft:20,
+    marginRight:40,
+    borderRadius:16
+  }
 });
